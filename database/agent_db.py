@@ -31,5 +31,28 @@ class AgentDB:
             cursor.close()
             conn.close()
 
+
+    @staticmethod
+    def get_all_agents():
+        try:
+            conn = db_connection.DBConnection.get_connection()
+            cursor = conn.cursor(dictionary=True)
+
+            sql = """
+    SELECT * FROM agents
+    """
+            cursor.execute(sql)
+
+            agents = cursor.fetchall()
+
+            return agents
+        except Exception as e:
+            raise
+        
+        finally:
+            cursor.close()
+            conn.close()
+
 # new_agent = {"name": "david", "specialty": "a reports", "agent_rank": "Junior"}
 # print(AgentDB.create_agent(new_agent))
+# print(AgentDB.get_all_agents())
