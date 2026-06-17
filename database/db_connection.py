@@ -1,7 +1,7 @@
 from mysql import connector
 
 
-class DB_connection:
+class DBConnection:
     @staticmethod
     def get_connection():
         return connector.connect(
@@ -14,7 +14,7 @@ class DB_connection:
 
     @staticmethod
     def create_database():
-        conn = DB_connection.get_connection()
+        conn = DBConnection().get_connection()
         cursor = conn.cursor()
 
         sql = "CREATE DATABASE IF NOT EXISTS Intelligence_db"
@@ -26,13 +26,13 @@ class DB_connection:
 
     @staticmethod
     def create_tables():
-        conn = DB_connection.get_connection()
+        conn = DBConnection().get_connection()
         cursor = conn.cursor()
 
         sql_agents = """CREATE TABLE IF NOT EXISTS agents(
         id                  INT             PRIMARY KEY AUTO_INCREMENT,
-        name                VARCHAR(25),
-        speciality          VARCHAR(25),
+        name                VARCHAR(50),
+        specialty          VARCHAR(50),
         is_active           BOOLEAN         DEFAULT true,
         completed_missions  INT             DEFAULT 0,
         failed_missions     INT             DEFAULT 0,
@@ -40,27 +40,28 @@ class DB_connection:
         )"""
 
         sql_missions = """CREATE TABLE IF NOT EXISTS missions(
-        id                  INT             PRIMARY KEY AUTO_INCREMENT,
-        title               VARCHAR(25),
-        description         TEXT,
-        | 1 | `id` | INT | Primary Key, Auto Increment |
-# | 2 | `title` | VARCHAR(25) |
-# | 3 | `description` | TEXT |
-# | 4 | `location` | VARCHAR(100) |
-# | 5 | `difficulty` | INT | Between 1 - 10 only |
-# | 6 | `importance` | INT | Between 1 - 10 only |
-# | 7 | `status` | VARCHER | Default: NEW |
-# | 8 | `risk_level` | VARCHER(8) | Calculated by system |
-# | 9 | `assigned_by_agent_id` | INT | Default: NULL
+        id                      INT             PRIMARY KEY AUTO_INCREMENT,
+        title                   VARCHAR(50),
+        description             TEXT,
+        location                VARCHAR(100),
+        difficulty              INT             CHECK (difficulty >= 1 AND difficulty <= 10),
+        importance              INT             CHECK (importance >= 1 AND importance <= 10),
+        status                  VARCHAR(10)     DEFAULT "NEW",
+        risk_level              VARCHAR(10),
+        assigned_by_agent_id    INT             DEFAULT NULL
         )"""
+
 
 
         cursor.execute(sql_agents)
         cursor.execute(sql_missions)
+        
+        conn.commit()
 
         cursor.close()
-        cursor.close()
+        conn.close()
         print("Tables created successfully.")
 
 
-DB_connection.create_database()
+# DBConnection.create_database()
+# DBConnection.create_tables()
