@@ -26,6 +26,8 @@ class AgentDB:
         except Exception as e:
             if e.__dict__["errno"] == 1265:
                 raise KeyError("Invalid agent rank, please enter one of these ranks: Junior / Senior / Commander")
+            else:
+                raise
         
         finally:
             cursor.close()
