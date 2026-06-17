@@ -1,4 +1,7 @@
-import db_connection
+from database import db_connection
+from utils.agent_utils import is_alowed_agent_columns
+
+
 
 class AgentDB:
 
@@ -77,7 +80,33 @@ class AgentDB:
             cursor.close()
             conn.close()
 
-# new_agent = {"name": "avraham", "specialty": "aaa", "agent_rank": "commander"}
-# print(AgentDB.create_agent(new_agent))
-# print(AgentDB.get_all_agents())
-# print(AgentDB.get_agent_by_id(1))
+    @staticmethod
+    def update_agent(id, data):
+        
+        try:
+            agent_info = AgentDB.get_agent_by_id(id)
+            conn = db_connection.DBConnection.get_connection()
+            cursor = conn.cursor()
+            if not agent_info:
+                raise KeyError(f"Agent {id} not found.")
+            for k, v in data.items():
+                if is_alowed_agent_columns(k):
+                    sql = f"""
+        UPDATE agents SET  {k} = %s
+        WHERE  id = %s
+        """
+                    values = (v, id)
+                    cursor.execute(sql, values)
+                else:
+                    print(f"Invalid column: {k} ")
+            
+            conn.commit()
+
+
+            return {"status": f"Agent {id} successfully updated."}
+        except Exception as e:
+            return {"status": f"Failed to update {e}"}
+        
+        finally:
+            cursor.close()
+            conn.close()
