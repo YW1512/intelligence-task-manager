@@ -108,4 +108,32 @@ class AgentDB:
             cursor.close()
             conn.close()
 
+    @staticmethod
+    def deactivate_agent(id):
+        
+        try:
+            conn = db_connection.DBConnection.get_connection()
+            cursor = conn.cursor()
+
+            sql = """
+UPDATE agents SET is_active = false
+WHERE  id = %s
+"""
+            value = (id,)
+            cursor.execute(sql, value)
+
+            conn.commit()
+            change = cursor.rowcount
+
+            if change:
+                return {"status": f"Agent {id} successfully deactivated."}
+            return {"status": "Failed to deactivate."}
+            
+        except Exception:
+            raise
+        
+        finally:
+            cursor.close()
+            conn.close()
+
 
