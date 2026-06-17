@@ -19,8 +19,7 @@ class AgentDB:
 
             agents_id = cursor.lastrowid
 
-            # return AgentDB.get_agent_by_id(agents_id)
-            return agents_id
+            return AgentDB.get_agent_by_id(agents_id)
         except KeyError as e:
             raise(f"Data missing: {e}")
         except Exception as e:
@@ -55,6 +54,30 @@ class AgentDB:
             cursor.close()
             conn.close()
 
-# new_agent = {"name": "david", "specialty": "a reports", "agent_rank": "Junior"}
+    @staticmethod
+    def get_agent_by_id(id):
+        try:
+            conn = db_connection.DBConnection.get_connection()
+            cursor = conn.cursor(dictionary=True)
+
+            sql = """
+    SELECT * FROM agents
+    WHERE  id = %s
+    """
+            value = (id,)
+            cursor.execute(sql, value)
+
+            agent = cursor.fetchone()
+
+            return agent
+        except Exception:
+            raise
+        
+        finally:
+            cursor.close()
+            conn.close()
+
+# new_agent = {"name": "avraham", "specialty": "aaa", "agent_rank": "commander"}
 # print(AgentDB.create_agent(new_agent))
 # print(AgentDB.get_all_agents())
+# print(AgentDB.get_agent_by_id(1))
