@@ -84,11 +84,8 @@ class AgentDB:
     def update_agent(id, data):
         
         try:
-            agent_info = AgentDB.get_agent_by_id(id)
             conn = db_connection.DBConnection.get_connection()
             cursor = conn.cursor()
-            if not agent_info:
-                raise KeyError(f"Agent {id} not found.")
             for k, v in data.items():
                 if is_alowed_agent_columns(k):
                     sql = f"""
@@ -110,3 +107,5 @@ class AgentDB:
         finally:
             cursor.close()
             conn.close()
+
+
