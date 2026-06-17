@@ -22,10 +22,11 @@ intelligence-task-manager/
 
 ## Table structures:
 
+<br>
+
+Agents table
 | # | Column | Type | Constraints |
 | :- | :- | :- | :- |
-<br>
-| | Agents table; | | |
 | 1 | `id` | INT | Primary Key, Auto Increment |
 | 2 | `name` | VARCHAR(25) |
 | 3 | `speciality` | VARCHAR(25) | 
@@ -33,8 +34,12 @@ intelligence-task-manager/
 | 5 | `completed_missions` | INT | Default: 0 |
 | 6 | `failed_missions` | INT | Default: 0 |
 | 7 | `agent_rank` | ENUM | Allowed ranks: Junior / Senior / Commander |
+
 <br>
-| | Missions table; | | |
+
+Missions table
+| # | Column | Type | Constraints |
+| :- | :- | :- | :- |
 | 1 | `id` | INT | Primary Key, Auto Increment |
 | 2 | `title` | VARCHAR(25) |
 | 3 | `description` | TEXT |
