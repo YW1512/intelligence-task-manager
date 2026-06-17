@@ -150,14 +150,12 @@ WHERE  id = %s
             value = (id,)
             cursor.execute(get_number, value)
             number = cursor.fetchone()[0]
-            values = (number + 1, id)
-
-
-
+            
             sql = """
 UPDATE agents SET completed_missions = %s
 WHERE id = %s
 """
+            values = (number + 1, id)
             cursor.execute(sql, values)
 
             conn.commit()
@@ -165,6 +163,67 @@ WHERE id = %s
             if change:
                 return {"status": f" successfully incremented agent {id}'s completed_missions."}
             return {"status": "Failed to increment."}
+            
+        except Exception:
+            raise
+        
+        finally:
+            cursor.close()
+            conn.close()
+
+    @staticmethod
+    def increment_failed(id):
+        
+        try:
+            conn = db_connection.DBConnection.get_connection()
+            cursor = conn.cursor()
+
+            get_number = """SELECT failed_missions
+            FROM agents
+            WHERE id = %s
+            """
+            value = (id,)
+            cursor.execute(get_number, value)
+            number = cursor.fetchone()[0]
+
+            sql = """
+UPDATE agents SET failed_missions = %s
+WHERE id = %s
+"""
+            values = (number + 1, id)
+            cursor.execute(sql, values)
+
+            conn.commit()
+            change = cursor.rowcount
+            if change:
+                return {"status": f" successfully incremented agent {id}'s failed_missions."}
+            return {"status": "Failed to increment."}
+            
+        except Exception:
+            raise
+        
+        finally:
+            cursor.close()
+            conn.close()
+
+
+
+
+    @staticmethod
+    def count_active_agents():
+        
+        try:
+            conn = db_connection.DBConnection.get_connection()
+            cursor = conn.cursor()
+
+            get_number = """SELECT COUNT(is_active)
+            FROM agents
+            WHERE is_active = true
+            """
+
+            cursor.execute(get_number)
+            number = cursor.fetchone()[0]
+            return number
             
         except Exception:
             raise
