@@ -21,7 +21,12 @@ intelligence-task-manager/
 │   └── report_routes.py 
 |
 ├── logs/                 
-│   └── app.log 
+│   ├── app.log 
+│   └── log_config.py
+|
+├── utils/                 
+│   ├── agent_utils.py  
+│   └── pydantic_classes.py 
 |
 ├── README.md
 ├── requirements.txt
@@ -121,6 +126,16 @@ Class MissionDB:
 -   An agent can only start a mission after he is assigned to it (mission's `status=ASSIGNED`), than the missions status will be `status=IN_PROGRESS`.
 -   An agent can only finish a mission with `IN_PROGRESS` status, and change the status to `failed` or `completed`.
 -   Only missions with status `NEW` or `ASSIGNED` can be canceled, any other status will raise an exception.
+
+<br>
+
+## Endpoints:
+
+1.  [POST]  `http://127.0.0.1:8080/agents`                  (Create an agent)
+2.  [GET]   `http://127.0.0.1:8080/agents`                  (Read all agents)
+2.  [GET]   `http://127.0.0.1:8080/agents/{id}`             (Read an agent by id)
+2.  [PUT]   `http://127.0.0.1:8080/agents/{id}`             (Update an agent by id)
+2.  [PUT]   `http://127.0.0.1:8080/agents/{id}/deactivate`  (Deactivate an agent)
 
 <br>
 
