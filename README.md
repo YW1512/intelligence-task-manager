@@ -133,9 +133,11 @@ Class MissionDB:
 
 1.  [POST]  `http://127.0.0.1:8080/agents`                  (Create an agent)
 2.  [GET]   `http://127.0.0.1:8080/agents`                  (Read all agents)
-2.  [GET]   `http://127.0.0.1:8080/agents/{id}`             (Read an agent by id)
-2.  [PUT]   `http://127.0.0.1:8080/agents/{id}`             (Update an agent by id)
-2.  [PUT]   `http://127.0.0.1:8080/agents/{id}/deactivate`  (Deactivate an agent)
+3.  [GET]   `http://127.0.0.1:8080/agents/{id}`             (Read an agent by id)
+4.  [PUT]   `http://127.0.0.1:8080/agents/{id}`             (Update an agent by id)
+5.  [PUT]   `http://127.0.0.1:8080/agents/{id}/deactivate`  (Deactivate an agent)
+6.  [GET]   `http://127.0.0.1:8080/agents/{id}/performance` (Read agents performance)
+
 
 <br>
 
