@@ -130,5 +130,6 @@ Before starting, make sure docker desktop is running in the background.
 ### 4. Install modules, by running:
 `pip install -r requirements.txt`
 
+
 ### 5. Run main file:
 `python main.py`
