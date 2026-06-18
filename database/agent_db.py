@@ -99,11 +99,18 @@ class AgentDB:
             
             conn.commit()
 
+            change = cursor.rowcount
 
-            return {"status": f"Agent {id} successfully updated."}
+            if change:
+                return {"status": f"Agent {id} successfully updated."}
+            else:
+                return {"status": "No change took effect."}
+
         except Exception as e:
-            return {"status": f"Failed to update {e}"}
-        
+            if e.__dict__["errno"] == 1265:
+                raise ValueError("Invalid agent rank, please enter one of these ranks: Junior / Senior / Commander")
+            else:
+                raise        
         finally:
             cursor.close()
             conn.close()
