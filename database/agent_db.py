@@ -208,6 +208,35 @@ WHERE id = %s
 
 
 
+    @staticmethod
+    def get_agent_performance(id):
+        
+        try:
+            conn = db_connection.DBConnection.get_connection()
+            cursor = conn.cursor(dictionary=True)
+
+            get_info = """SELECT completed_missions, failed_missions
+            FROM agents
+            WHERE id = %s
+            """
+
+            cursor.execute(get_info, (id,))
+            initial_info = cursor.fetchone()
+
+            total = initial_info["completed_missions"] + initial_info["failed_missions"]
+
+            info  = {"completed": initial_info["completed_missions"], "failed": initial_info["failed_missions"], "total": total, "success_rate": 100 / total * initial_info["completed_missions"]}
+
+
+
+            return info
+            
+        except Exception:
+            raise
+        
+        finally:
+            cursor.close()
+            conn.close()
 
     @staticmethod
     def count_active_agents():
